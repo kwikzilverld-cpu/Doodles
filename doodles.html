@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doodles for Saoirse ✈️🇫🇷</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+        :root {
+            --bg-color: #f0faf7;
+            --primary-color: #ff6b6b;
+            --secondary-color: #4dadf7;
+            --accent-color: #ffd43b;
+            --text-color: #2b2b2b;
+            --border-color: #333333;
+            --card-bg: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Comic Sans MS', 'Chalkboard SE', 'Fredoka One', system-ui, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: radial-gradient(#d1f2e5 2px, transparent 2px);
+            background-size: 24px 24px;
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: var(--card-bg);
+            border: 4px solid var(--border-color);
+            border-radius: 24px;
+            box-shadow: 8px 8px 0px var(--border-color);
+            padding: 30px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Decorative elements */
+        .decor {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.2;
+            user-select: none;
+        }
+        .decor-1 { top: 10px; left: 10px; transform: rotate(-15deg); }
+        .decor-2 { top: 10px; right: 10px; transform: rotate(15deg); }
+        .decor-3 { bottom: 10px; left: 15px; transform: rotate(10deg); }
+        .decor-4 { bottom: 10px; right: 15px; transform: rotate(-20deg); }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-top: 0;
+            color: var(--text-color);
+            text-shadow: 3px 3px 0px var(--accent-color);
+            -webkit-text-stroke: 1px var(--border-color);
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 1.1rem;
+            margin-top: -15px;
+            margin-bottom: 30px;
+            color: #666;
+            font-style: italic;
+        }
+
+        /* Login Screen styling */
+        #login-screen {
+            text-align: center;
+            max-width: 450px;
+            margin: 40px auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 12px 16px;
+            font-size: 1rem;
+            border: 3px solid var(--border-color);
+            border-radius: 12px;
+            background-color: #fff;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        input[type="text"]:focus, input[type="password"]:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(77, 173, 247, 0.3);
+        }
+
+        .btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: 3px solid var(--border-color);
+            border-radius: 16px;
+            padding: 12px 28px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 4px 4px 0px var(--border-color);
+            transition: transform 0.1s, box-shadow 0.1s;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0px var(--border-color);
+        }
+
+        .btn:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px var(--border-color);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary-color);
+        }
+        
+        .btn-accent {
+            background-color: var(--accent-color);
+            color: var(--text-color);
+        }
+
+        .btn-danger {
+            background-color: #ff4b4b;
+        }
+
+        /* Main Workspace Layout */
+        #main-workspace {
+            display: none;
+        }
+
+        .workspace-grid {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .workspace-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Canvas Panel */
+        .canvas-panel {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #fffef0;
+            border: 3px dashed #b5b291;
+            border-radius: 16px;
+            padding: 20px;
+        }
+
+        .canvas-container {
+            position: relative;
+            background: white;
+            border: 6px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: 5px 5px 0px rgba(0,0,0,0.1);
+            overflow: hidden;
+            cursor: crosshair;
+            /* UPGRADED SCREEN SIZE */
+            width: 480px; /* 240 * 2 */
+            height: 640px; /* 320 * 2 */
+        }
+
+        /* HTML5 Canvas scaled cleanly */
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
+
+        .screen-badge {
+            background: #333;
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        /* Tool Controls */
+        .toolbox {
+            background: #f1f3f5;
+            border: 3px solid var(--border-color);
+            border-radius: 16px;
+            padding: 15px;
+            height: min-content;
+        }
+
+        .tool-section {
+            margin-bottom: 20px;
+        }
+
+        .tool-section h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 1rem;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+        .color-palette {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+        }
+
+        .color-swatch {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            border: 2px solid var(--border-color);
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+
+        .color-swatch:hover, .tool-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .color-swatch.active {
+            border-color: #fff;
+            box-shadow: 0 0 0 3px var(--primary-color);
+            transform: scale(1.1);
+        }
+
+        .brush-sizes {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .brush-btn {
+            background: white;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .brush-btn.active {
+            background: var(--secondary-color);
+            color: white;
+        }
+
+        .utility-btns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .util-btn {
+            padding: 8px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            cursor: pointer;
+            background: white;
+        }
+
+        /* Stickers feature */
+        .stickers-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+        .sticker-item {
+            font-size: 1.5rem;
+            background: white;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 4px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+        }
+        .sticker-item:active {
+            background: #eee;
+        }
+
+        /* Action Center */
+        .action-center {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 4px dashed var(--border-color);
+        }
+
+        /* Teleportation Animation Overlay */
+        #teleport-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(240, 250, 247, 0.95);
+            z-index: 1000;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .airplane-animation {
+            font-size: 5rem;
+            animation: fly 2.5s linear infinite;
+            position: relative;
+        }
+
+        @keyframes fly {
+            0% { transform: translate(-150px, 20px) rotate(5deg); }
+            50% { transform: translate(0px, -20px) rotate(-5deg); }
+            100% { transform: translate(150px, 20px) rotate(5deg); }
+        }
+
+        .status-pulse {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-top: 20px;
+            color: var(--primary-color);
+            animation: pulse 1s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulse {
+            from { opacity: 0.6; }
+            to { opacity: 1; }
+        }
+
+        /* Gallery Feed */
+        .gallery-section {
+            margin-top: 30px;
+        }
+
+        .gallery-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 20px;
+        }
+
+        .gallery-item {
+            background: white;
+            border: 3px solid var(--border-color);
+            border-radius: 14px;
+            padding: 10px;
+            box-shadow: 4px 4px 0px rgba(0,0,0,0.05);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .gallery-thumb-wrap {
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            overflow: hidden;
+            width: 64px;
+            height: 80px;
+            background: #fff;
+        }
+
+        .gallery-thumb {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            image-rendering: pixelated;
+        }
+
+        .gallery-meta {
+            font-size: 0.8rem;
+            margin-top: 8px;
+            font-weight: bold;
+            width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        .gallery-time {
+            font-size: 0.7rem;
+            color: #777;
+        }
+
+        /* Connection Ticker */
+        .ticker-bar {
+            background: #333;
+            color: #fff;
+            padding: 8px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            background-color: #2ecc71;
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 8px #2ecc71;
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div style="max-width: 800px; width: 100%;">
+        <div class="ticker-bar">
+            <span>📡 Device Status: <span style="color: #ffd43b;">Saoirse's Screen (France)</span></span>
+            <span><span class="status-dot"></span> LIVE & CONNECTED</span>
+        </div>
+    </div>
+
+    <div class="container">
+        <span class="decor decor-1">🇳🇱</span>
+        <span class="decor decor-2">🇫🇷</span>
+        <span class="decor decor-3">🥐</span>
+        <span class="decor decor-4">🌷</span>
+
+        <h1>Doodles for Saoirse ✨</h1>
+        <div class="subtitle">Send custom mini-artworks straight to her desk in France!</div>
+
+        <div id="login-screen">
+            <h2 style="margin-bottom: 25px;">🛂 Setup Your Doodler Passport</h2>
+            <div class="form-group">
+                <label for="username">Your Name:</label>
+                <input type="text" id="username" placeholder="e.g., Bram, Anouk, Mom..." required>
+            </div>
+            <div class="form-group">
+                <label for="password">Secret Group Code:</label>
+                <input type="password" id="password" value="saoirse2026" placeholder="Enter anything!">
+            </div>
+            <button class="btn" id="login-btn">Enter Studio 🚀</button>
+        </div>
+
+        <div id="main-workspace">
+            <div style="background: #e3faf2; padding: 12px; border-radius: 12px; margin-bottom: 20px; text-align: center; border: 2px solid var(--border-color); font-weight: bold;">
+                👋 Welcome back, <span id="display-name" style="color: var(--primary-color);">Artist</span>! Draw something sweet to surprise her.
+            </div>
+
+            <div class="workspace-grid">
+                <div class="canvas-panel">
+                    <div class="screen-badge">HARDWARE SCREEN RES: 240 x 320 PIXELS</div>
+                    <div class="canvas-container" id="canvas-holder">
+                        <canvas id="paintCanvas" width="240" height="320"></canvas>
+                    </div>
+                    <div style="margin-top: 10px; font-size: 0.85rem; color: #666; font-weight: bold;">
+                        💡 Tip: Select a sticker below to stamp it directly on your frame!
+                    </div>
+                </div>
+
+                <div class="toolbox">
+                    <div class="tool-section">
+                        <h3>🎨 Color Palette</h3>
+                        <div class="color-palette" id="palette">
+                            </div>
+                    </div>
+
+                    <div class="tool-section">
+                        <h3>✏️ Brush Thickess</h3>
+                        <div class="brush-sizes">
+                            <button class="brush-btn active" data-size="2">Thin</button>
+                            <button class="brush-btn" data-size="5">Medium</button>
+                            <button class="brush-btn" data-size="10">Chunky</button>
+                        </div>
+                    </div>
+
+                    <div class="tool-section">
+                        <h3>✨ Fast Stamps</h3>
+                        <div class="stickers-grid">
+                            <div class="sticker-item" data-emoji="❤️">❤️</div>
+                            <div class="sticker-item" data-emoji="🥐">🥐</div>
+                            <div class="sticker-item" data-emoji="🌷">🌷</div>
+                            <div class="sticker-item" data-emoji="🧀">🧀</div>
+                            <div class="sticker-item" data-emoji="☀️">☀️</div>
+                            <div class="sticker-item" data-emoji="🍷">🍷</div>
+                            <div class="sticker-item" data-emoji="⭐">⭐</div>
+                            <div class="sticker-item" data-emoji="🐱">🐱</div>
+                        </div>
+                    </div>
+
+                    <div class="utility-btns">
+                        <button class="util-btn" id="eraser-btn" style="background: #ffe3e3;">🧽 Eraser</button>
+                        <button class="util-btn" id="clear-btn" style="background: #f1f3f5;">🗑️ Clear</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-center">
+                <button class="btn btn-accent" id="send-btn" style="font-size: 1.5rem; padding: 15px 40px;">
+                    🚀 TELEPORT TO FRANCE! 🇫🇷
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container gallery-section" id="gallery-container" style="display: none;">
+        <div class="gallery-title">
+            <span>🖼️ Live Transmission Feed</span>
+            <span style="font-size: 0.9rem; background: #e3faf2; padding: 4px 10px; border-radius: 12px; font-weight: normal; margin-left: auto;">
+                Showing uploads currently stored on device
+            </span>
+        </div>
+        <div class="gallery-grid" id="gallery-grid">
+            <div class="gallery-item">
+                <div class="gallery-thumb-wrap">
+                    <div style="background: #ff6b6b; width:100%; height:100%; display:flex; align-items:center; justify-content:center; color:white; font-size:2rem;">❤️</div>
+                </div>
+                <div class="gallery-meta">System Test</div>
+                <div class="gallery-time">Just now</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="teleport-overlay">
+        <div class="airplane-animation">✈️💨</div>
+        <div class="status-pulse" id="teleport-status">Converting pixels to radio waves...</div>
+        <div style="font-size: 1.1rem; color: #555; margin-top: 10px;" id="teleport-sub">Crossing the Belgian border...</div>
+    </div>
+
+    <script>
+        // ==========================================
+        // SYSTEM INIT & CONFIGURATION
+        // ==========================================
+        console.log("[SYSTEM] Booting Doodles Application...");
+        
+        // BACKEND SETUP: You need to replace these with your actual Supabase credentials!
+        const SUPABASE_URL = 'https://YOUR_PROJECT_ID.supabase.co';
+        const SUPABASE_ANON_KEY = 'YOUR_ANON_KEY';
+        
+        let supabase;
+        try {
+            supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            console.log("[SYSTEM] Supabase client initialized. Waiting for payload...");
+        } catch (error) {
+            console.error("[CRITICAL ERROR] Failed to initialize Supabase client. Check CDN connection.", error);
+        }
+
+        // Retro Audio Effect Engine using Web Audio API
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playTone(freq, type, duration) {
+            try {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = type || 'sine';
+                osc.frequency.value = freq;
+                gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + duration);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch(e) { console.warn("[AUDIO ERROR] Failed to play tone", e); }
+        }
+
+        // Palette setup
+        const colors = [
+            '#000000', '#ffffff', '#ff6b6b', '#da77f2', '#a61e4d',
+            '#228be6', '#15aabf', '#20c997', '#40c057', '#fab005',
+            '#fd7e14', '#be4bdb', '#7048e8', '#ae3ec9', '#f03e3e'
+        ];
+        
+        let activeColor = '#000000';
+        let brushSize = 2;
+        let isDrawing = false;
+        let isEraser = false;
+        let activeSticker = null;
+        let currentUser = "A Friend";
+
+        // DOM elements
+        const loginScreen = document.getElementById('login-screen');
+        const mainWorkspace = document.getElementById('main-workspace');
+        const galleryContainer = document.getElementById('gallery-container');
+        const usernameInput = document.getElementById('username');
+        const loginBtn = document.getElementById('login-btn');
+        const displayName = document.getElementById('display-name');
+        
+        const canvas = document.getElementById('paintCanvas');
+        const ctx = canvas.getContext('2d');
+        const palette = document.getElementById('palette');
+        const eraserBtn = document.getElementById('eraser-btn');
+        const clearBtn = document.getElementById('clear-btn');
+        const sendBtn = document.getElementById('send-btn');
+        const teleportOverlay = document.getElementById('teleport-overlay');
+        const teleportStatus = document.getElementById('teleport-status');
+        const teleportSub = document.getElementById('teleport-sub');
+        const galleryGrid = document.getElementById('gallery-grid');
+
+        // Setup canvas properties
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        console.log(`[SYSTEM] Canvas initialized to ${canvas.width}x${canvas.height}`);
+
+        // Render Color Palette
+        colors.forEach((color, index) => {
+            const swatch = document.createElement('div');
+            swatch.className = 'color-swatch' + (index === 0 ? ' active' : '');
+            swatch.style.backgroundColor = color;
+            swatch.addEventListener('click', () => {
+                document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+                swatch.classList.add('active');
+                activeColor = color;
+                isEraser = false;
+                activeSticker = null;
+                eraserBtn.style.background = 'white';
+                playTone(400 + (index * 40), 'sine', 0.1);
+            });
+            palette.appendChild(swatch);
+        });
+
+        // App Transition (Login simulation)
+        loginBtn.addEventListener('click', () => {
+            if(usernameInput.value.trim() === "") {
+                alert("Please type a fun name so Saoirse knows who drew it! 🥰");
+                return;
+            }
+            currentUser = usernameInput.value.trim();
+            displayName.innerText = currentUser;
+            
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            
+            playTone(523.25, 'triangle', 0.15); // C5
+            setTimeout(() => playTone(659.25, 'triangle', 0.15), 100); // E5
+            setTimeout(() => playTone(783.99, 'triangle', 0.3), 200); // G5
+
+            loginScreen.style.display = 'none';
+            mainWorkspace.style.display = 'block';
+            galleryContainer.style.display = 'block';
+            console.log(`[USER EVENT] Session started for user: ${currentUser}`);
+        });
+
+        // Coordinates adjustment function for the genuine hardware mapping
+        function getCanvasCoords(e) {
+            const rect = canvas.getBoundingClientRect();
+            const x = Math.floor((e.clientX - rect.left) / (rect.width / canvas.width));
+            const y = Math.floor((e.clientY - rect.top) / (rect.height / canvas.height));
+            return { x, y };
+        }
+
+        // Draw Logic
+        function startDrawing(e) {
+            isDrawing = true;
+            const coords = getCanvasCoords(e.touches ? e.touches[0] : e);
+            
+            if (activeSticker) {
+                ctx.font = "36px Arial";
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                ctx.fillText(activeSticker, coords.x, coords.y);
+                playTone(600, 'square', 0.08);
+                isDrawing = false;
+                return;
+            }
+
+            ctx.beginPath();
+            ctx.moveTo(coords.x, coords.y);
+            ctx.strokeStyle = isEraser ? '#ffffff' : activeColor;
+            ctx.lineWidth = brushSize;
+            ctx.lineTo(coords.x, coords.y);
+            ctx.stroke();
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            e.preventDefault(); 
+            const coords = getCanvasCoords(e.touches ? e.touches[0] : e);
+            ctx.strokeStyle = isEraser ? '#ffffff' : activeColor;
+            ctx.lineWidth = brushSize;
+            ctx.lineTo(coords.x, coords.y);
+            ctx.stroke();
+        }
+
+        function stopDrawing() {
+            isDrawing = false;
+        }
+
+        canvas.addEventListener('mousedown', startDrawing);
+        canvas.addEventListener('mousemove', draw);
+        window.addEventListener('mouseup', stopDrawing);
+
+        canvas.addEventListener('touchstart', startDrawing);
+        canvas.addEventListener('touchmove', draw);
+        window.addEventListener('touchend', stopDrawing);
+
+        // UI Interactions
+        document.querySelectorAll('.brush-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.brush-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                brushSize = parseInt(btn.getAttribute('data-size'));
+                playTone(300 + (brushSize * 20), 'sine', 0.1);
+            });
+        });
+
+        eraserBtn.addEventListener('click', () => {
+            isEraser = true;
+            activeSticker = null;
+            document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+            eraserBtn.style.background = 'var(--secondary-color)';
+            playTone(250, 'sawtooth', 0.15);
+        });
+
+        clearBtn.addEventListener('click', () => {
+            if(confirm("Are you sure you want to scrub your masterpiece?🧹")) {
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                playTone(180, 'sawtooth', 0.3);
+                console.log("[SYSTEM] Canvas matrix cleared.");
+            }
+        });
+
+        document.querySelectorAll('.sticker-item').forEach(item => {
+            item.addEventListener('click', () => {
+                activeSticker = item.getAttribute('data-emoji');
+                isEraser = false;
+                eraserBtn.style.background = 'white';
+                document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+                playTone(800, 'sine', 0.05);
+                alert(`Sticker [ ${activeSticker} ] selected! Tap anywhere on the canvas to stamp it.`);
+            });
+        });
+
+        // ==========================================
+        // BACKEND TRANSMISSION LOGIC
+        // ==========================================
+        sendBtn.addEventListener('click', async () => {
+            console.log("[SYSTEM] Transmission sequence initiated. Locking UI...");
+            teleportOverlay.style.display = 'flex';
+            
+            playTone(400, 'square', 0.2);
+            setTimeout(() => playTone(600, 'square', 0.2), 200);
+            setTimeout(() => playTone(800, 'square', 0.2), 400);
+            setTimeout(() => playTone(1200, 'square', 0.5), 600);
+
+            try {
+                // Phase 1: Local Buffer Setup
+                teleportStatus.innerText = "Extracting pixel data from hardware buffer...";
+                teleportSub.innerText = "Running canvas.toBlob()...";
+                console.log("[DEBUG] Generating binary blob from canvas layout.");
+
+                const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+                if (!blob) throw new Error("Canvas toBlob output is null. Memory allocation failure.");
+                
+                const fileName = `saoirse_doodle_${Date.now()}.png`;
+                console.log(`[DEBUG] Blob successfully allocated. Size: ${blob.size} bytes.`);
+                console.log(`[DEBUG] Target filename assigned: ${fileName}`);
+
+                // Phase 2: Network Handshake
+                teleportStatus.innerText = "Encrypting packet data for backend...";
+                teleportSub.innerText = "Connecting to Supabase Storage...";
+                playTone(900, 'triangle', 0.2);
+
+                if (SUPABASE_URL.includes('YOUR_PROJECT_ID')) {
+                    console.warn("[WARNING] Supabase credentials missing! Simulating successful upload for debugging.");
+                    // Simulate a network delay for the placeholder
+                    await new Promise(resolve => setTimeout(resolve, 1500)); 
+                } else {
+                    console.log("[NETWORK] Opening POST request to Supabase /storage/v1/object...");
+                    // ACTUAL UPLOAD LOGIC
+                    const { data, error } = await supabase.storage
+                        .from('doodles') // Ensure you have a storage bucket named 'doodles'
+                        .upload(fileName, blob, {
+                            cacheControl: '3600',
+                            upsert: false
+                        });
+
+                    if (error) {
+                        console.error("[NETWORK ERROR] Backend rejected the payload:", error.message);
+                        throw error;
+                    }
+                    console.log("[SYSTEM] Transmission acknowledged! Server responded with object data:", data);
+                }
+
+                // Phase 3: Completion & UI Update
+                teleportStatus.innerText = "Pushing bytes into Saoirse's TFT screen!";
+                teleportSub.innerText = "Wi-Fi Handshake successful! 📡";
+                playTone(1100, 'sine', 0.2);
+
+                setTimeout(() => {
+                    teleportOverlay.style.display = 'none';
+                    
+                    playTone(800, 'triangle', 0.1);
+                    setTimeout(() => playTone(1000, 'triangle', 0.1), 80);
+                    setTimeout(() => playTone(1300, 'triangle', 0.4), 160);
+
+                    // Render Local Gallery Feed
+                    const imgData = canvas.toDataURL();
+                    const now = new Date();
+                    const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                    const galleryItem = document.createElement('div');
+                    galleryItem.className = 'gallery-item';
+                    galleryItem.innerHTML = `
+                        <div class="gallery-thumb-wrap">
+                            <img class="gallery-thumb" src="${imgData}" alt="Doodle">
+                        </div>
+                        <div class="gallery-meta">${currentUser}</div>
+                        <div class="gallery-time">${timeString}</div>
+                    `;
+                    galleryGrid.insertBefore(galleryItem, galleryGrid.firstChild);
+
+                    console.log("[SYSTEM] Teleport Sequence COMPLETE. Wiping local buffer.");
+                    alert(`🎉 Success! Your drawing has been successfully stored on the backend!`);
+                    
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                }, 1000);
+
+            } catch (error) {
+                // Error Catching
+                teleportOverlay.style.display = 'none';
+                console.error("[CRITICAL FAILURE] Upload sequence aborted.", error);
+                alert(`⚠️ Upload Failed!\nCheck the browser console (F12) for debugging details.\nError: ${error.message}`);
+                playTone(200, 'sawtooth', 0.5);
+            }
+        });
+    </script>
+</body>
+</html>
