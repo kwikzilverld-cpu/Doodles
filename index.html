@@ -813,14 +813,12 @@ try {
                     await new Promise(resolve => setTimeout(resolve, 1500)); 
                 } else {
                     console.log("[NETWORK] Opening POST request to Supabase /storage/v1/object...");
-                    // ACTUAL UPLOAD LOGIC
-                    const { data, error } = await supabase.storage
-                        .from('doodles') // Ensure you have a storage bucket named 'doodles'
-                        .upload(fileName, blob, {
-                            cacheControl: '3600',
-                            upsert: false
-                        });
-
+const { data, error } = await supabaseClient.storage
+    .from('doodles') 
+    .upload(fileName, blob, {
+        cacheControl: '3600',
+        upsert: false
+    });
                     if (error) {
                         console.error("[NETWORK ERROR] Backend rejected the payload:", error.message);
                         throw error;
