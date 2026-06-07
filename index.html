@@ -578,18 +578,18 @@
         // ==========================================
         console.log("[SYSTEM] Booting Doodles Application...");
         
-        // BACKEND SETUP: You need to replace these with your actual Supabase credentials!
+        // BACKEND SETUP: Credentials attached from setup page
         const SUPABASE_URL = 'https://hmiuqksfnsfceihpddty.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhtaXVxa3NmbnNmY2VpaHBkZHR5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA4MzE5NTYsImV4cCI6MjA5NjQwNzk1Nn0.tV8d1zC9zLXs8AuLVveUm98S8fbzXEiLCTmzZwRXuIQ';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhtaXVxa3NmbnNmY2VpaHBkZHR5Iiwicm9sZSI6Imwub24iLCJpYXQiOjE3ODA4MzE5NTYsImV4cCI6MjA5NjQwNzk1Nn0.tV8d1zC9zLXs8AuLVveUm98S8fbzXEiLCTmzZwRXuIQ';
         
-// NEW FIXED CODE
-let supabaseClient;
-try {
-    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    console.log("[SYSTEM] Supabase client initialized. Waiting for payload...");
-} catch (error) {
-    console.error("[CRITICAL ERROR] Failed to initialize Supabase client. Check CDN connection.", error);
-}
+        // RENAMED VARIABlE TO PREVENT SYNTAX ERROR COLLISION
+        let supabaseClient;
+        try {
+            supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            console.log("[SYSTEM] Supabase client initialized. Waiting for payload...");
+        } catch (error) {
+            console.error("[CRITICAL ERROR] Failed to initialize Supabase client. Check CDN connection.", error);
+        }
 
         // Retro Audio Effect Engine using Web Audio API
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -809,16 +809,17 @@ try {
 
                 if (SUPABASE_URL.includes('YOUR_PROJECT_ID')) {
                     console.warn("[WARNING] Supabase credentials missing! Simulating successful upload for debugging.");
-                    // Simulate a network delay for the placeholder
                     await new Promise(resolve => setTimeout(resolve, 1500)); 
                 } else {
                     console.log("[NETWORK] Opening POST request to Supabase /storage/v1/object...");
-const { data, error } = await supabaseClient.storage
-    .from('doodles') 
-    .upload(fileName, blob, {
-        cacheControl: '3600',
-        upsert: false
-    });
+                    // ACTUAL UPLOAD LOGIC UTILIZING FIXED CLIENT REFERENCE
+                    const { data, error } = await supabaseClient.storage
+                        .from('doodles') 
+                        .upload(fileName, blob, {
+                            cacheControl: '3600',
+                            upsert: false
+                        });
+
                     if (error) {
                         console.error("[NETWORK ERROR] Backend rejected the payload:", error.message);
                         throw error;
