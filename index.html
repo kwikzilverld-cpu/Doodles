@@ -29,24 +29,36 @@
             background-size: 24px 24px;
             color: var(--text-color);
             margin: 0;
-            padding: 20px;
+            padding: 10px;
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
         }
 
+        @media (min-width: 480px) {
+            body {
+                padding: 20px;
+            }
+        }
+
         .container {
-            max-width: 800px;
+            max-width: 850px;
             width: 100%;
             background: var(--card-bg);
             border: 4px solid var(--border-color);
             border-radius: 24px;
             box-shadow: 8px 8px 0px var(--border-color);
-            padding: 30px;
+            padding: 20px;
             margin-bottom: 30px;
             position: relative;
             overflow: hidden;
+        }
+
+        @media (min-width: 480px) {
+            .container {
+                padding: 30px;
+            }
         }
 
         /* Decorative elements */
@@ -63,11 +75,17 @@
 
         h1 {
             text-align: center;
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             margin-top: 0;
             color: var(--text-color);
             text-shadow: 3px 3px 0px var(--accent-color);
             -webkit-text-stroke: 1px var(--border-color);
+        }
+
+        @media (min-width: 480px) {
+            h1 {
+                font-size: 2.5rem;
+            }
         }
 
         .subtitle {
@@ -127,6 +145,7 @@
             transition: transform 0.1s, box-shadow 0.1s;
             display: inline-block;
             margin-top: 10px;
+            user-select: none;
         }
 
         .btn:hover {
@@ -159,13 +178,13 @@
 
         .workspace-grid {
             display: grid;
-            grid-template-columns: 1fr 300px;
+            grid-template-columns: 1fr;
             gap: 30px;
         }
 
-        @media (max-width: 768px) {
+        @media (min-width: 768px) {
             .workspace-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr 340px;
             }
         }
 
@@ -177,7 +196,8 @@
             background: #fffef0;
             border: 3px dashed #b5b291;
             border-radius: 16px;
-            padding: 20px;
+            padding: 15px;
+            width: 100%;
         }
 
         .canvas-container {
@@ -188,9 +208,10 @@
             box-shadow: 5px 5px 0px rgba(0,0,0,0.1);
             overflow: hidden;
             cursor: crosshair;
-            /* UPGRADED SCREEN SIZE */
-            width: 480px; /* 240 * 2 */
-            height: 640px; /* 320 * 2 */
+            width: 100%;
+            max-width: 480px;
+            aspect-ratio: 240 / 320;
+            touch-action: none;
         }
 
         /* HTML5 Canvas scaled cleanly */
@@ -211,6 +232,7 @@
             margin-bottom: 10px;
             font-weight: bold;
             letter-spacing: 1px;
+            text-align: center;
         }
 
         /* Tool Controls */
@@ -218,8 +240,9 @@
             background: #f1f3f5;
             border: 3px solid var(--border-color);
             border-radius: 16px;
-            padding: 15px;
+            padding: 20px;
             height: min-content;
+            width: 100%;
         }
 
         .tool-section {
@@ -228,7 +251,7 @@
 
         .tool-section h3 {
             margin-top: 0;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             font-size: 1rem;
             border-bottom: 2px solid #ddd;
             padding-bottom: 5px;
@@ -237,12 +260,12 @@
         .color-palette {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 8px;
+            gap: 10px;
         }
 
         .color-swatch {
-            width: 35px;
-            height: 35px;
+            width: 100%;
+            aspect-ratio: 1 / 1;
             border-radius: 50%;
             border: 2px solid var(--border-color);
             cursor: pointer;
@@ -266,12 +289,14 @@
         }
 
         .brush-btn {
+            flex: 1;
             background: white;
             border: 2px solid var(--border-color);
             border-radius: 8px;
-            padding: 5px 10px;
+            padding: 8px 5px;
             cursor: pointer;
             font-weight: bold;
+            font-size: 0.9rem;
         }
 
         .brush-btn.active {
@@ -287,7 +312,7 @@
         }
 
         .util-btn {
-            padding: 8px;
+            padding: 10px;
             font-size: 0.9rem;
             font-weight: bold;
             border: 2px solid var(--border-color);
@@ -300,14 +325,14 @@
         .stickers-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
+            gap: 10px;
         }
         .sticker-item {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             background: white;
             border: 2px solid var(--border-color);
             border-radius: 8px;
-            padding: 4px;
+            padding: 6px 4px;
             text-align: center;
             cursor: pointer;
             user-select: none;
@@ -337,6 +362,8 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            padding: 20px;
+            text-align: center;
         }
 
         .airplane-animation {
@@ -370,11 +397,19 @@
         }
 
         .gallery-title {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             margin-bottom: 15px;
             display: flex;
-            align-items: center;
-            gap: 10px;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        @media (min-width: 480px) {
+            .gallery-title {
+                flex-direction: row;
+                align-items: center;
+                font-size: 1.5rem;
+            }
         }
 
         .gallery-grid {
@@ -399,8 +434,8 @@
             border: 2px solid var(--border-color);
             border-radius: 6px;
             overflow: hidden;
-            width: 64px;
-            height: 80px;
+            width: 80px;
+            height: 106px;
             background: #fff;
         }
 
@@ -430,14 +465,24 @@
         .ticker-bar {
             background: #333;
             color: #fff;
-            padding: 8px;
+            padding: 10px;
             border-radius: 12px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
+            gap: 5px;
             align-items: center;
             margin-bottom: 20px;
             font-weight: bold;
+            text-align: center;
+        }
+
+        @media (min-width: 480px) {
+            .ticker-bar {
+                flex-direction: row;
+                justify-content: space-between;
+                font-size: 0.9rem;
+            }
         }
 
         .status-dot {
@@ -458,7 +503,7 @@
 </head>
 <body>
 
-    <div style="max-width: 800px; width: 100%;">
+    <div style="max-width: 850px; width: 100%;">
         <div class="ticker-bar">
             <span>📡 Device Status: <span style="color: #ffd43b;">Saoirse's Screen (France)</span></span>
             <span><span class="status-dot"></span> LIVE & CONNECTED</span>
@@ -488,7 +533,7 @@
         </div>
 
         <div id="main-workspace">
-            <div style="background: #e3faf2; padding: 12px; border-radius: 12px; margin-bottom: 20px; text-align: center; border: 2px solid var(--border-color); font-weight: bold;">
+            <div style="background: #e3faf2; padding: 12px; border-radius: 12px; margin-bottom: 20px; text-align: center; border: 2px solid var(--border-color); font-weight: bold; font-size: 0.95rem;">
                 👋 Welcome back, <span id="display-name" style="color: var(--primary-color);">Artist</span>! Draw something sweet to surprise her.
             </div>
 
@@ -498,7 +543,7 @@
                     <div class="canvas-container" id="canvas-holder">
                         <canvas id="paintCanvas" width="240" height="320"></canvas>
                     </div>
-                    <div style="margin-top: 10px; font-size: 0.85rem; color: #666; font-weight: bold;">
+                    <div style="margin-top: 12px; font-size: 0.85rem; color: #666; font-weight: bold; text-align: center;">
                         💡 Tip: Select a sticker below to stamp it directly on your frame!
                     </div>
                 </div>
@@ -506,12 +551,11 @@
                 <div class="toolbox">
                     <div class="tool-section">
                         <h3>🎨 Color Palette</h3>
-                        <div class="color-palette" id="palette">
-                            </div>
+                        <div class="color-palette" id="palette"></div>
                     </div>
 
                     <div class="tool-section">
-                        <h3>✏️ Brush Thickess</h3>
+                        <h3>✏️ Brush Thickness</h3>
                         <div class="brush-sizes">
                             <button class="brush-btn active" data-size="2">Thin</button>
                             <button class="brush-btn" data-size="5">Medium</button>
@@ -541,7 +585,7 @@
             </div>
 
             <div class="action-center">
-                <button class="btn btn-accent" id="send-btn" style="font-size: 1.5rem; padding: 15px 40px;">
+                <button class="btn btn-accent" id="send-btn" style="font-size: 1.4rem; padding: 15px 35px; width: 100%; max-width: 400px;">
                     🚀 TELEPORT TO FRANCE! 🇫🇷
                 </button>
             </div>
@@ -551,19 +595,11 @@
     <div class="container gallery-section" id="gallery-container" style="display: none;">
         <div class="gallery-title">
             <span>🖼️ Live Transmission Feed</span>
-            <span style="font-size: 0.9rem; background: #e3faf2; padding: 4px 10px; border-radius: 12px; font-weight: normal; margin-left: auto;">
-                Showing uploads currently stored on device
+            <span id="gallery-load-status" style="font-size: 0.85rem; background: #e3faf2; padding: 4px 10px; border-radius: 12px; font-weight: normal; margin-left: auto;">
+                Synchronizing with server...
             </span>
         </div>
-        <div class="gallery-grid" id="gallery-grid">
-            <div class="gallery-item">
-                <div class="gallery-thumb-wrap">
-                    <div style="background: #ff6b6b; width:100%; height:100%; display:flex; align-items:center; justify-content:center; color:white; font-size:2rem;">❤️</div>
-                </div>
-                <div class="gallery-meta">System Test</div>
-                <div class="gallery-time">Just now</div>
-            </div>
-        </div>
+        <div class="gallery-grid" id="gallery-grid"></div>
     </div>
 
     <div id="teleport-overlay">
@@ -578,20 +614,17 @@
         // ==========================================
         console.log("[SYSTEM] Booting Doodles Application...");
         
-        // BACKEND SETUP: Credentials attached from setup page
         const SUPABASE_URL = 'https://hmiuqksfnsfceihpddty.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhtaXVxa3NmbnNmY2VpaHBkZHR5Iiwicm9sZSI6Imwub24iLCJpYXQiOjE3ODA4MzE5NTYsImV4cCI6MjA5NjQwNzk1Nn0.tV8d1zC9zLXs8AuLVveUm98S8fbzXEiLCTmzZwRXuIQ';
         
-        // RENAMED VARIABlE TO PREVENT SYNTAX ERROR COLLISION
         let supabaseClient;
         try {
             supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-            console.log("[SYSTEM] Supabase client initialized. Waiting for payload...");
+            console.log("[SYSTEM] Supabase client initialized.");
         } catch (error) {
-            console.error("[CRITICAL ERROR] Failed to initialize Supabase client. Check CDN connection.", error);
+            console.error("[CRITICAL ERROR] Failed to initialize Supabase client.", error);
         }
 
-        // Retro Audio Effect Engine using Web Audio API
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         function playTone(freq, type, duration) {
             try {
@@ -608,7 +641,6 @@
             } catch(e) { console.warn("[AUDIO ERROR] Failed to play tone", e); }
         }
 
-        // Palette setup
         const colors = [
             '#000000', '#ffffff', '#ff6b6b', '#da77f2', '#a61e4d',
             '#228be6', '#15aabf', '#20c997', '#40c057', '#fab005',
@@ -622,7 +654,6 @@
         let activeSticker = null;
         let currentUser = "A Friend";
 
-        // DOM elements
         const loginScreen = document.getElementById('login-screen');
         const mainWorkspace = document.getElementById('main-workspace');
         const galleryContainer = document.getElementById('gallery-container');
@@ -640,15 +671,13 @@
         const teleportStatus = document.getElementById('teleport-status');
         const teleportSub = document.getElementById('teleport-sub');
         const galleryGrid = document.getElementById('gallery-grid');
+        const galleryLoadStatus = document.getElementById('gallery-load-status');
 
-        // Setup canvas properties
         ctx.lineCap = 'round';
         ctx.lineJoin = 'round';
         ctx.fillStyle = '#ffffff';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        console.log(`[SYSTEM] Canvas initialized to ${canvas.width}x${canvas.height}`);
 
-        // Render Color Palette
         colors.forEach((color, index) => {
             const swatch = document.createElement('div');
             swatch.className = 'color-swatch' + (index === 0 ? ' active' : '');
@@ -665,39 +694,40 @@
             palette.appendChild(swatch);
         });
 
-        // App Transition (Login simulation)
         loginBtn.addEventListener('click', () => {
             if(usernameInput.value.trim() === "") {
                 alert("Please type a fun name so Saoirse knows who drew it! 🥰");
                 return;
             }
-            currentUser = usernameInput.value.trim();
-            displayName.innerText = currentUser;
+            currentUser = usernameInput.value.trim().replace(/[^a-zA-Z0-9]/g, "_");
+            displayName.innerText = usernameInput.value.trim();
             
             if (audioCtx.state === 'suspended') audioCtx.resume();
             
-            playTone(523.25, 'triangle', 0.15); // C5
-            setTimeout(() => playTone(659.25, 'triangle', 0.15), 100); // E5
-            setTimeout(() => playTone(783.99, 'triangle', 0.3), 200); // G5
+            playTone(523.25, 'triangle', 0.15);
+            setTimeout(() => playTone(659.25, 'triangle', 0.15), 100);
+            setTimeout(() => playTone(783.99, 'triangle', 0.3), 200);
 
             loginScreen.style.display = 'none';
             mainWorkspace.style.display = 'block';
             galleryContainer.style.display = 'block';
-            console.log(`[USER EVENT] Session started for user: ${currentUser}`);
+            
+            fetchGalleryImages();
         });
 
-        // Coordinates adjustment function for the genuine hardware mapping
         function getCanvasCoords(e) {
             const rect = canvas.getBoundingClientRect();
-            const x = Math.floor((e.clientX - rect.left) / (rect.width / canvas.width));
-            const y = Math.floor((e.clientY - rect.top) / (rect.height / canvas.height));
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            
+            const x = Math.floor((clientX - rect.left) / (rect.width / canvas.width));
+            const y = Math.floor((clientY - rect.top) / (rect.height / canvas.height));
             return { x, y };
         }
 
-        // Draw Logic
         function startDrawing(e) {
             isDrawing = true;
-            const coords = getCanvasCoords(e.touches ? e.touches[0] : e);
+            const coords = getCanvasCoords(e);
             
             if (activeSticker) {
                 ctx.font = "36px Arial";
@@ -719,8 +749,7 @@
 
         function draw(e) {
             if (!isDrawing) return;
-            e.preventDefault(); 
-            const coords = getCanvasCoords(e.touches ? e.touches[0] : e);
+            const coords = getCanvasCoords(e);
             ctx.strokeStyle = isEraser ? '#ffffff' : activeColor;
             ctx.lineWidth = brushSize;
             ctx.lineTo(coords.x, coords.y);
@@ -735,13 +764,12 @@
         canvas.addEventListener('mousemove', draw);
         window.addEventListener('mouseup', stopDrawing);
 
-        canvas.addEventListener('touchstart', startDrawing);
-        canvas.addEventListener('touchmove', draw);
+        canvas.addEventListener('touchstart', (e) => { startDrawing(e); });
+        canvas.addEventListener('touchmove', (e) => { draw(e); });
         window.addEventListener('touchend', stopDrawing);
 
-        // UI Interactions
         document.querySelectorAll('.brush-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
+            btn.addEventListener('click', () => {
                 document.querySelectorAll('.brush-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
                 brushSize = parseInt(btn.getAttribute('data-size'));
@@ -762,7 +790,6 @@
                 ctx.fillStyle = '#ffffff';
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 playTone(180, 'sawtooth', 0.3);
-                console.log("[SYSTEM] Canvas matrix cleared.");
             }
         });
 
@@ -773,15 +800,78 @@
                 eraserBtn.style.background = 'white';
                 document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
                 playTone(800, 'sine', 0.05);
-                alert(`Sticker [ ${activeSticker} ] selected! Tap anywhere on the canvas to stamp it.`);
             });
         });
+
+        // ==========================================
+        // DYNAMIC GALLERY SYNC LOGIC
+        // ==========================================
+        async function fetchGalleryImages() {
+            if (SUPABASE_URL.includes('YOUR_PROJECT_ID') || !supabaseClient) return;
+
+            try {
+                galleryLoadStatus.innerText = "Refreshing feed...";
+                const { data, error } = await supabaseClient.storage.from('doodles').list('', {
+                    limit: 100,
+                    sortBy: { column: 'created_at', order: 'desc' }
+                });
+
+                if (error) throw error;
+
+                galleryGrid.innerHTML = '';
+
+                if (!data || data.length === 0) {
+                    galleryGrid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: #777; padding: 20px;">No drawings found yet. Be the first!</div>';
+                    galleryLoadStatus.innerText = "All synced!";
+                    return;
+                }
+
+                for (const item of data) {
+                    if (item.name === '.emptyFolderPlaceholder') continue;
+
+                    const { data: urlData } = supabaseClient.storage.from('doodles').getPublicUrl(item.name);
+                    
+                    let artist = "Unknown Artist";
+                    let displayTime = "Sometime";
+
+                    // Parse Custom Filename Scheme: Name_YYYY-MM-DD_HH-MM.png
+                    const parts = item.name.replace('.png', '').split('_');
+                    if (parts.length >= 3) {
+                        artist = parts[0].replace(/_/g, ' ');
+                        const datePart = parts[1];
+                        const timePart = parts[2].replace('-', ':');
+                        displayTime = `${datePart} ${timePart}`;
+                    } else {
+                        // Fallback parsing if formatting differs
+                        artist = parts[0] || "Artist";
+                        if (item.created_at) {
+                            const d = new Date(item.created_at);
+                            displayTime = d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                        }
+                    }
+
+                    const galleryItem = document.createElement('div');
+                    galleryItem.className = 'gallery-item';
+                    galleryItem.innerHTML = `
+                        <div class="gallery-thumb-wrap">
+                            <img class="gallery-thumb" src="${urlData.publicUrl}" alt="Doodle" onerror="this.parentElement.innerHTML='🖼️';">
+                        </div>
+                        <div class="gallery-meta" title="${artist}">${artist}</div>
+                        <div class="gallery-time">${displayTime}</div>
+                    `;
+                    galleryGrid.appendChild(galleryItem);
+                }
+                galleryLoadStatus.innerText = "All synced!";
+            } catch (err) {
+                console.error("[GALLERY FETCH ERROR]", err);
+                galleryLoadStatus.innerText = "Sync failed 🔄";
+            }
+        }
 
         // ==========================================
         // BACKEND TRANSMISSION LOGIC
         // ==========================================
         sendBtn.addEventListener('click', async () => {
-            console.log("[SYSTEM] Transmission sequence initiated. Locking UI...");
             teleportOverlay.style.display = 'flex';
             
             playTone(400, 'square', 0.2);
@@ -790,83 +880,67 @@
             setTimeout(() => playTone(1200, 'square', 0.5), 600);
 
             try {
-                // Phase 1: Local Buffer Setup
                 teleportStatus.innerText = "Extracting pixel data from hardware buffer...";
                 teleportSub.innerText = "Running canvas.toBlob()...";
-                console.log("[DEBUG] Generating binary blob from canvas layout.");
 
                 const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
-                if (!blob) throw new Error("Canvas toBlob output is null. Memory allocation failure.");
+                if (!blob) throw new Error("Canvas data generation failed.");
                 
-                const fileName = `saoirse_doodle_${Date.now()}.png`;
-                console.log(`[DEBUG] Blob successfully allocated. Size: ${blob.size} bytes.`);
-                console.log(`[DEBUG] Target filename assigned: ${fileName}`);
+                // Formulate Name and Date Stamps
+                const now = new Date();
+                const year = now.getFullYear();
+                const month = String(now.getMonth() + 1).padStart(2, '0');
+                const day = String(now.getDate()).padStart(2, '0');
+                const hours = String(now.getHours()).padStart(2, '0');
+                const minutes = String(now.getMinutes()).padStart(2, '0');
+                
+                const cleanDate = `${year}-${month}-${day}`;
+                const cleanTime = `${hours}-${minutes}`;
+                
+                // Final descriptive custom file structure requested
+                const fileName = `${currentUser}_${cleanDate}_${cleanTime}.png`;
 
-                // Phase 2: Network Handshake
                 teleportStatus.innerText = "Encrypting packet data for backend...";
                 teleportSub.innerText = "Connecting to Supabase Storage...";
                 playTone(900, 'triangle', 0.2);
 
                 if (SUPABASE_URL.includes('YOUR_PROJECT_ID')) {
-                    console.warn("[WARNING] Supabase credentials missing! Simulating successful upload for debugging.");
                     await new Promise(resolve => setTimeout(resolve, 1500)); 
                 } else {
-                    console.log("[NETWORK] Opening POST request to Supabase /storage/v1/object...");
-                    // ACTUAL UPLOAD LOGIC UTILIZING FIXED CLIENT REFERENCE
                     const { data, error } = await supabaseClient.storage
                         .from('doodles') 
                         .upload(fileName, blob, {
                             cacheControl: '3600',
-                            upsert: false
+                            upsert: true
                         });
 
-                    if (error) {
-                        console.error("[NETWORK ERROR] Backend rejected the payload:", error.message);
-                        throw error;
-                    }
-                    console.log("[SYSTEM] Transmission acknowledged! Server responded with object data:", data);
+                    if (error) throw error;
                 }
 
-                // Phase 3: Completion & UI Update
                 teleportStatus.innerText = "Pushing bytes into Saoirse's TFT screen!";
                 teleportSub.innerText = "Wi-Fi Handshake successful! 📡";
                 playTone(1100, 'sine', 0.2);
 
-                setTimeout(() => {
+                setTimeout(async () => {
                     teleportOverlay.style.display = 'none';
                     
                     playTone(800, 'triangle', 0.1);
                     setTimeout(() => playTone(1000, 'triangle', 0.1), 80);
                     setTimeout(() => playTone(1300, 'triangle', 0.4), 160);
 
-                    // Render Local Gallery Feed
-                    const imgData = canvas.toDataURL();
-                    const now = new Date();
-                    const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-                    const galleryItem = document.createElement('div');
-                    galleryItem.className = 'gallery-item';
-                    galleryItem.innerHTML = `
-                        <div class="gallery-thumb-wrap">
-                            <img class="gallery-thumb" src="${imgData}" alt="Doodle">
-                        </div>
-                        <div class="gallery-meta">${currentUser}</div>
-                        <div class="gallery-time">${timeString}</div>
-                    `;
-                    galleryGrid.insertBefore(galleryItem, galleryGrid.firstChild);
-
-                    console.log("[SYSTEM] Teleport Sequence COMPLETE. Wiping local buffer.");
                     alert(`🎉 Success! Your drawing has been successfully stored on the backend!`);
                     
                     ctx.fillStyle = '#ffffff';
                     ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    
+                    // Immediately re-sync feed contents with server list
+                    await fetchGalleryImages();
                 }, 1000);
 
             } catch (error) {
-                // Error Catching
                 teleportOverlay.style.display = 'none';
-                console.error("[CRITICAL FAILURE] Upload sequence aborted.", error);
-                alert(`⚠️ Upload Failed!\nCheck the browser console (F12) for debugging details.\nError: ${error.message}`);
+                console.error("[CRITICAL FAILURE]", error);
+                alert(`⚠️ Upload Failed!\nError: ${error.message}`);
                 playTone(200, 'sawtooth', 0.5);
             }
         });
