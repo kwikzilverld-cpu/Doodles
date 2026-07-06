@@ -714,7 +714,7 @@ loginBtn.addEventListener('click', async () => {
             .select('*')
             .ilike('username', enteredUsername) // ilike makes it case-insensitive
             .eq('password', enteredPassword)
-            .single(); // We only expect one match
+            .maybeSingle(); // We only expect one match
 
         if (error || !data) {
             // No match found
