@@ -526,9 +526,9 @@
                 <input type="text" id="username" placeholder="e.g., Bram, Anouk, Mom..." required>
             </div>
             <div class="form-group">
-                <label for="password">Secret Group Code:</label>
-                <input type="password" id="password" value="saoirse2026" placeholder="Enter anything!">
-            </div>
+    <label for="password">Secret Group Code:</label>
+    <input type="password" id="password" placeholder="Enter your unique secret code!">
+</div>
             <button class="btn" id="login-btn">Enter Studio 🚀</button>
         </div>
 
@@ -694,26 +694,57 @@
             palette.appendChild(swatch);
         });
 
-        loginBtn.addEventListener('click', () => {
-            if(usernameInput.value.trim() === "") {
-                alert("Please type a fun name so Saoirse knows who drew it! 🥰");
-                return;
-            }
-            currentUser = usernameInput.value.trim().replace(/[^a-zA-Z0-9]/g, "_");
-            displayName.innerText = usernameInput.value.trim();
-            
-            if (audioCtx.state === 'suspended') audioCtx.resume();
-            
-            playTone(523.25, 'triangle', 0.15);
-            setTimeout(() => playTone(659.25, 'triangle', 0.15), 100);
-            setTimeout(() => playTone(783.99, 'triangle', 0.3), 200);
+loginBtn.addEventListener('click', async () => {
+    const enteredUsername = usernameInput.value.trim();
+    const enteredPassword = document.getElementById('password').value;
 
-            loginScreen.style.display = 'none';
-            mainWorkspace.style.display = 'block';
-            galleryContainer.style.display = 'block';
-            
-            fetchGalleryImages();
-        });
+    if(enteredUsername === "" || enteredPassword === "") {
+        alert("Please enter both your name and your secret code! 🥰");
+        return;
+    }
+
+    // Change button text so the user knows it's checking
+    const originalBtnText = loginBtn.innerText;
+    loginBtn.innerText = "Checking Passport... 🛂";
+
+    try {
+        // Query the Supabase table you just created
+        const { data, error } = await supabaseClient
+            .from('doodlers')
+            .select('*')
+            .ilike('username', enteredUsername) // ilike makes it case-insensitive
+            .eq('password', enteredPassword)
+            .single(); // We only expect one match
+
+        if (error || !data) {
+            // No match found
+            alert("Oops! We don't recognize that name or secret code. Try again! 🕵️");
+            loginBtn.innerText = originalBtnText;
+            return;
+        }
+
+        // --- SUCCESSFUL LOGIN ---
+        currentUser = data.username.replace(/[^a-zA-Z0-9]/g, "_");
+        displayName.innerText = data.username;
+        
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        
+        playTone(523.25, 'triangle', 0.15);
+        setTimeout(() => playTone(659.25, 'triangle', 0.15), 100);
+        setTimeout(() => playTone(783.99, 'triangle', 0.3), 200);
+
+        loginScreen.style.display = 'none';
+        mainWorkspace.style.display = 'block';
+        galleryContainer.style.display = 'block';
+        
+        fetchGalleryImages();
+
+    } catch (err) {
+        console.error("Login error:", err);
+        alert("Something went wrong checking your passport. Try again!");
+        loginBtn.innerText = originalBtnText;
+    }
+});
 
         function getCanvasCoords(e) {
             const rect = canvas.getBoundingClientRect();
