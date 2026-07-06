@@ -158,23 +158,12 @@
             box-shadow: 2px 2px 0px var(--border-color);
         }
 
-        .btn-secondary {
-            background-color: var(--secondary-color);
-        }
-        
-        .btn-accent {
-            background-color: var(--accent-color);
-            color: var(--text-color);
-        }
-
-        .btn-danger {
-            background-color: #ff4b4b;
-        }
+        .btn-secondary { background-color: var(--secondary-color); }
+        .btn-accent { background-color: var(--accent-color); color: var(--text-color); }
+        .btn-danger { background-color: #ff4b4b; }
 
         /* Main Workspace Layout */
-        #main-workspace {
-            display: none;
-        }
+        #main-workspace { display: none; }
 
         .workspace-grid {
             display: grid;
@@ -183,9 +172,7 @@
         }
 
         @media (min-width: 768px) {
-            .workspace-grid {
-                grid-template-columns: 1fr 340px;
-            }
+            .workspace-grid { grid-template-columns: 1fr 340px; }
         }
 
         /* Canvas Panel */
@@ -214,7 +201,6 @@
             touch-action: none;
         }
 
-        /* HTML5 Canvas scaled cleanly */
         canvas {
             display: block;
             width: 100%;
@@ -245,10 +231,7 @@
             width: 100%;
         }
 
-        .tool-section {
-            margin-bottom: 20px;
-        }
-
+        .tool-section { margin-bottom: 20px; }
         .tool-section h3 {
             margin-top: 0;
             margin-bottom: 12px;
@@ -272,22 +255,14 @@
             transition: transform 0.1s;
         }
 
-        .color-swatch:hover, .tool-btn:hover {
-            transform: scale(1.1);
-        }
-
+        .color-swatch:hover, .tool-btn:hover { transform: scale(1.1); }
         .color-swatch.active {
             border-color: #fff;
             box-shadow: 0 0 0 3px var(--primary-color);
             transform: scale(1.1);
         }
 
-        .brush-sizes {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
+        .brush-sizes { display: flex; gap: 10px; align-items: center; }
         .brush-btn {
             flex: 1;
             background: white;
@@ -298,11 +273,7 @@
             font-weight: bold;
             font-size: 0.9rem;
         }
-
-        .brush-btn.active {
-            background: var(--secondary-color);
-            color: white;
-        }
+        .brush-btn.active { background: var(--secondary-color); color: white; }
 
         .utility-btns {
             display: grid;
@@ -310,7 +281,6 @@
             gap: 10px;
             margin-top: 15px;
         }
-
         .util-btn {
             padding: 10px;
             font-size: 0.9rem;
@@ -337,9 +307,7 @@
             cursor: pointer;
             user-select: none;
         }
-        .sticker-item:active {
-            background: #eee;
-        }
+        .sticker-item:active { background: #eee; }
 
         /* Action Center */
         .action-center {
@@ -386,16 +354,10 @@
             animation: pulse 1s ease-in-out infinite alternate;
         }
 
-        @keyframes pulse {
-            from { opacity: 0.6; }
-            to { opacity: 1; }
-        }
+        @keyframes pulse { from { opacity: 0.6; } to { opacity: 1; } }
 
         /* Gallery Feed */
-        .gallery-section {
-            margin-top: 30px;
-        }
-
+        .gallery-section { margin-top: 30px; }
         .gallery-title {
             font-size: 1.4rem;
             margin-bottom: 15px;
@@ -405,11 +367,7 @@
         }
 
         @media (min-width: 480px) {
-            .gallery-title {
-                flex-direction: row;
-                align-items: center;
-                font-size: 1.5rem;
-            }
+            .gallery-title { flex-direction: row; align-items: center; font-size: 1.5rem; }
         }
 
         .gallery-grid {
@@ -456,10 +414,7 @@
             white-space: nowrap;
         }
         
-        .gallery-time {
-            font-size: 0.7rem;
-            color: #777;
-        }
+        .gallery-time { font-size: 0.7rem; color: #777; }
 
         /* Connection Ticker */
         .ticker-bar {
@@ -478,11 +433,7 @@
         }
 
         @media (min-width: 480px) {
-            .ticker-bar {
-                flex-direction: row;
-                justify-content: space-between;
-                font-size: 0.9rem;
-            }
+            .ticker-bar { flex-direction: row; justify-content: space-between; font-size: 0.9rem; }
         }
 
         .status-dot {
@@ -495,10 +446,7 @@
             animation: blink 1.5s infinite;
         }
 
-        @keyframes blink {
-            0%, 100% { opacity: 0.4; }
-            50% { opacity: 1; }
-        }
+        @keyframes blink { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
     </style>
 </head>
 <body>
@@ -526,9 +474,9 @@
                 <input type="text" id="username" placeholder="e.g., Bram, Anouk, Mom..." required>
             </div>
             <div class="form-group">
-    <label for="password">Secret Group Code:</label>
-    <input type="password" id="password" placeholder="Enter your unique secret code!">
-</div>
+                <label for="password">Secret Group Code:</label>
+                <input type="password" id="password" value="saoirse2026" placeholder="Enter anything!">
+            </div>
             <button class="btn" id="login-btn">Enter Studio 🚀</button>
         </div>
 
@@ -657,7 +605,9 @@
         const loginScreen = document.getElementById('login-screen');
         const mainWorkspace = document.getElementById('main-workspace');
         const galleryContainer = document.getElementById('gallery-container');
+        
         const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password'); // Grabbed password input
         const loginBtn = document.getElementById('login-btn');
         const displayName = document.getElementById('display-name');
         
@@ -677,7 +627,7 @@
         ctx.lineJoin = 'round';
         ctx.fillStyle = '#ffffff';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-
+        
         colors.forEach((color, index) => {
             const swatch = document.createElement('div');
             swatch.className = 'color-swatch' + (index === 0 ? ' active' : '');
@@ -694,63 +644,63 @@
             palette.appendChild(swatch);
         });
 
-loginBtn.addEventListener('click', async () => {
-    const enteredUsername = usernameInput.value.trim();
-    const enteredPassword = document.getElementById('password').value;
+        // ==========================================
+        // FIXED LOGIN LOGIC
+        // ==========================================
+        loginBtn.addEventListener('click', async () => {
+            const usernameVal = usernameInput.value.trim();
+            const passwordVal = passwordInput.value;
 
-    if(enteredUsername === "" || enteredPassword === "") {
-        alert("Please enter both your name and your secret code! 🥰");
-        return;
-    }
+            if(usernameVal === "") {
+                alert("Please type a fun name so Saoirse knows who drew it! 🥰");
+                return;
+            }
 
-    // Change button text so the user knows it's checking
-    const originalBtnText = loginBtn.innerText;
-    loginBtn.innerText = "Checking Passport... 🛂";
+            try {
+                const { data, error } = await supabaseClient
+                    .from('doodlers')
+                    .select('*')
+                    .ilike('username', usernameVal)
+                    .eq('password', passwordVal);
 
-    try {
-        // Query the Supabase table you just created
-        const { data, error } = await supabaseClient
-            .from('doodlers')
-            .select('*')
-            .ilike('username', enteredUsername) // ilike makes it case-insensitive
-            .eq('password', enteredPassword)
-            .maybeSingle(); // We only expect one match
+                if (error) {
+                    console.error("Database error:", error);
+                    alert("Error connecting to the database.");
+                    return;
+                }
 
-        if (error || !data) {
-            // No match found
-            alert("Oops! We don't recognize that name or secret code. Try again! 🕵️");
-            loginBtn.innerText = originalBtnText;
-            return;
-        }
+                if (!data || data.length === 0) {
+                    alert("Incorrect username or password. Please try again! 🛑");
+                    return;
+                }
 
-        // --- SUCCESSFUL LOGIN ---
-        currentUser = data.username.replace(/[^a-zA-Z0-9]/g, "_");
-        displayName.innerText = data.username;
-        
-        if (audioCtx.state === 'suspended') audioCtx.resume();
-        
-        playTone(523.25, 'triangle', 0.15);
-        setTimeout(() => playTone(659.25, 'triangle', 0.15), 100);
-        setTimeout(() => playTone(783.99, 'triangle', 0.3), 200);
+                // Login successful!
+                currentUser = data[0].username.replace(/[^a-zA-Z0-9]/g, "_");
+                displayName.innerText = data[0].username;
 
-        loginScreen.style.display = 'none';
-        mainWorkspace.style.display = 'block';
-        galleryContainer.style.display = 'block';
-        
-        fetchGalleryImages();
+            } catch (err) {
+                console.error("Unexpected error during login:", err);
+                alert("An unexpected error occurred.");
+                return;
+            }
 
-    } catch (err) {
-        console.error("Login error:", err);
-        alert("Something went wrong checking your passport. Try again!");
-        loginBtn.innerText = originalBtnText;
-    }
-});
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            
+            playTone(523.25, 'triangle', 0.15);
+            setTimeout(() => playTone(659.25, 'triangle', 0.15), 100);
+            setTimeout(() => playTone(783.99, 'triangle', 0.3), 200);
+
+            loginScreen.style.display = 'none';
+            mainWorkspace.style.display = 'block';
+            galleryContainer.style.display = 'block';
+            
+            fetchGalleryImages();
+        });
 
         function getCanvasCoords(e) {
             const rect = canvas.getBoundingClientRect();
             const clientX = e.touches ? e.touches[0].clientX : e.clientX;
             const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-            
             const x = Math.floor((clientX - rect.left) / (rect.width / canvas.width));
             const y = Math.floor((clientY - rect.top) / (rect.height / canvas.height));
             return { x, y };
@@ -839,14 +789,13 @@ loginBtn.addEventListener('click', async () => {
         // ==========================================
         async function fetchGalleryImages() {
             if (SUPABASE_URL.includes('YOUR_PROJECT_ID') || !supabaseClient) return;
-
             try {
                 galleryLoadStatus.innerText = "Refreshing feed...";
                 const { data, error } = await supabaseClient.storage.from('doodles').list('', {
                     limit: 100,
                     sortBy: { column: 'created_at', order: 'desc' }
                 });
-
+                
                 if (error) throw error;
 
                 galleryGrid.innerHTML = '';
@@ -859,12 +808,11 @@ loginBtn.addEventListener('click', async () => {
 
                 for (const item of data) {
                     if (item.name === '.emptyFolderPlaceholder') continue;
-
                     const { data: urlData } = supabaseClient.storage.from('doodles').getPublicUrl(item.name);
                     
                     let artist = "Unknown Artist";
                     let displayTime = "Sometime";
-
+                    
                     // Parse Custom Filename Scheme: Name_YYYY-MM-DD_HH-MM.png
                     const parts = item.name.replace('.png', '').split('_');
                     if (parts.length >= 3) {
@@ -930,13 +878,13 @@ loginBtn.addEventListener('click', async () => {
                 
                 // Final descriptive custom file structure requested
                 const fileName = `${currentUser}_${cleanDate}_${cleanTime}.png`;
-
+                
                 teleportStatus.innerText = "Encrypting packet data for backend...";
                 teleportSub.innerText = "Connecting to Supabase Storage...";
                 playTone(900, 'triangle', 0.2);
-
+                
                 if (SUPABASE_URL.includes('YOUR_PROJECT_ID')) {
-                    await new Promise(resolve => setTimeout(resolve, 1500)); 
+                    await new Promise(resolve => setTimeout(resolve, 1500));
                 } else {
                     const { data, error } = await supabaseClient.storage
                         .from('doodles') 
@@ -944,7 +892,6 @@ loginBtn.addEventListener('click', async () => {
                             cacheControl: '3600',
                             upsert: true
                         });
-
                     if (error) throw error;
                 }
 
